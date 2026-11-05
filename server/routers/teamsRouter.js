@@ -40,8 +40,8 @@ router.get('/api/teams/:id/scrims', (req, res) => {
     }
 
     const teamScrims = scrims.filter(scrim =>
-        scrim.challengerTeamId === foundTeam.id ||
-        scrim.opponentTeamId === foundTeam.id
+        scrim.requestingTeamId === foundTeam.id ||
+        scrim.invitedTeamId === foundTeam.id
     );
     res.send({ data: teamScrims });
 });

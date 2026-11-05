@@ -29,29 +29,29 @@ router.get('/api/scrims/:id', (req, res) => {
 
 
 router.post('/api/scrims', (req, res) => {
-    const challengerTeamId = req.body.challengerTeamId;
-    const opponentTeamId = req.body.opponentTeamId;
+    const requestingTeamId = req.body.requestingTeamId;
+    const invitedTeamId = req.body.invitedTeamId;
     const date = req.body.date;
 
-    if (!challengerTeamId || !opponentTeamId || !date) {
-        return res.status(400).send({ error: "challengerTeamId, opponentTeamId and date are required" });
+    if (!requestingTeamId || !invitedTeamId || !date) {
+        return res.status(400).send({ error: "requestingTeamId, invitedTeamId and date are required" });
     }
 
-    if (challengerTeamId === opponentTeamId) {
-        return res.status(400).send({ error: "A team cannot challenge itself" });
+    if (requestingTeamId === invitedTeamId) {
+        return res.status(400).send({ error: "A team cannot invite itself" });
     }
 
-    const challengerTeam = teams.find(team => team.id === challengerTeamId);
-    const opponentTeam = teams.find(team => team.id === opponentTeamId);
+    const requestingTeam = teams.find(team => team.id === requestingTeamId);
+    const invitedTeam = teams.find(team => team.id === invitedTeamId);
 
-    if (!challengerTeam || !opponentTeam) {
+    if (!requestingTeam || !invitedTeam) {
         return res.status(404).send({ error: "One or both teams not found" });
     }
 
     const newScrim = {
         id: nextId,
-        challengerTeamId: challengerTeamId,
-        opponentTeamId: opponentTeamId,
+        requestingTeamId: requestingTeamId,
+        invitedTeamId: invitedTeamId,
         date: date,
         status: "pending"
     };
